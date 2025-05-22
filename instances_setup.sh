@@ -11,12 +11,21 @@ GREEN="\e[32m"
 YELLOW="\e[33m"
 NOCOLOR="\e[0m"
 
+# To verify if we aws clie is intalled
+if aws --version &> /dev/null
+then    
+    echo -e "$GREEN AWS CLI is installed $NOCOLOR"
+else   
+    echo -e "$RED AWS CLI is NOT installed $NOCOLOR"
+    dnf install awscli -y 
+    echo -e "$GREEN AWS CLI installed successfully $NOCOLOR"
+fi
+
 # To verify if we are able to connect to CLI
 aws s3 ls &> /dev/null
-
 if [ $? -ne 0 ]
 then
-    echo -e  "$RED ERROR:: Please verify aws access keys configuration $NOCOLOR"
+    echo -e  "$RED ERROR:: Please verify aws access keys configuration(/root/.aws/config) $NOCOLOR"
 else
     echo -e "$GREEN Connected to AWS..Instances creation is started. $NOCOLOR"
 
@@ -55,7 +64,7 @@ else
         --hosted-zone-id $ZONE_ID \
         --change-batch '
         {
-            "Comment": "Creating or Updating a record set for cognito endpoint"
+            "Comment": "Creating or Updating a record set for the $instance"
             ,"Changes": [{
             "Action"              : "UPSERT"
             ,"ResourceRecordSet"  : {
