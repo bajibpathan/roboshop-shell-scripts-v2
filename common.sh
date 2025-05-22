@@ -10,6 +10,7 @@ LOGS_FOLDER="/var/log/roboshop-logs"
 # SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 SCRIPT_NAME=$1
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
+SCRIPT_DIR=$PWD
 
 # Create log folder
 mkdir -p $LOGS_FOLDER
@@ -87,7 +88,6 @@ SYSTEMD_SETUP(){
     systemctl enable $APP_NAME &>>$LOG_FILE
     systemctl start $APP_NAME &>>$LOG_FILE
     VALIDATE $? "Enabling & Starting $APP_NAME service"
-
 }
 
 # To print the script execution time and status
