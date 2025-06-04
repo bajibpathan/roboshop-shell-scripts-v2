@@ -2,14 +2,21 @@
 
 AMI_ID="ami-09c813fb71547fc4f"
 SG_ID="sg-0d72167c5d5dfcb1b"
-INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "dispatch" "frontend")
+# INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "dispatch" "frontend")
 # INSTANCES=("mongodb" "catalogue" "frontend")
+INSTANCES="$@"
 ZONE_ID="Z04638081NLZ031HSLG68"
 DOMAIN_NAME="robodevops.store"
 RED="\e[31m"
 GREEN="\e[32m"
 YELLOW="\e[33m"
 NOCOLOR="\e[0m"
+
+if [ "$#" -lt 1 ]; then
+    echo -e "$YELLOW Please pass the components as arguments $DEFAULT"
+    echo -e "$RED USAGE:: $DEFAULT $0 [components]"
+    exit 1
+fi
 
 # To verify if we aws clie is intalled
 if aws --version &> /dev/null
